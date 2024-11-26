@@ -1,0 +1,9 @@
+<script>
+  const script = document.createElement('script');
+  script.type = 'module';
+  script.async = true;
+  script.src = 'https://hyper-guide.fly.dev/assets/app.js';
+
+  document.body.dataset.hyperGuideBackend = new URL(script.src).origin;
+  document.head.appendChild(script);
+</script>
