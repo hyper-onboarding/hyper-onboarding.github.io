@@ -1,9 +1,53 @@
 <script>
-  const script = document.createElement('script');
-  script.type = 'module';
-  script.async = true;
-  script.src = 'https://agent.makehyper.com/assets/app.js';
+  (function () {
+    // Create script element
+    const script = document.createElement('script');
+    script.src = 'https://widget.makehyper.com/js/widget.js';
+    script.async = true;
 
-  document.body.dataset.hyperGuideBackend = new URL(script.src).origin;
-  document.head.appendChild(script);
-</script>
+    // Add error handling
+    script.onerror = function () {
+      console.error('Failed to load Hyper widget');
+    };
+
+    // Add load handling
+    script.onload = function () {
+      // Generate or retrieve persistent user ID
+      let userId = localStorage.getItem('hyper_user_id');
+      if (!userId) {
+        userId = crypto.randomUUID ? crypto.randomUUID() : 
+          ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+            (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+          );
+        localStorage.setItem('hyper_user_id', userId);
+      }
+
+      // Initialize Hyper widget after script loads
+      window.Hyper("initialize", {
+        platform_id: "4628043a-87fa-4cd2-a93f-d0dfae901c24",
+        user_id: userId,
+        created_at: Math.floor(Date.now() / 1000),
+        email: "john.doe@example.com",
+        first_name: "John",
+        full_name: "John Doe",
+        locale: "en",
+        company: {
+          company_id: "1234567890",
+          name: "Acme, Inc.",
+          meta: {
+            plan: "enterprise",
+            industry: "technology"
+          }
+        },
+        meta: {
+          browser: navigator.userAgent,
+          screen_size: `${window.innerWidth}x${window.innerHeight}`
+        }
+      });
+    };
+
+    // Append script to document
+    document.head.appendChild(script);
+  })();
+  </script>
+
