@@ -12,8 +12,7 @@
     };
 
     // Add load handling
-    script.onload = function () {
-      // Generate or retrieve persistent user ID
+    window.addEventListener('HyperReady', function () {      // Generate or retrieve persistent user ID
       let userId = localStorage.getItem('hyper_user_id');
       if (!userId) {
         userId = crypto.randomUUID ? crypto.randomUUID() : 
@@ -45,7 +44,7 @@
           screen_size: `${window.innerWidth}x${window.innerHeight}`
         }
       });
-    };
+    });
 
     // Append script to document
     document.head.appendChild(script);
