@@ -10,9 +10,9 @@
     script.onerror = function () {
       console.error('Failed to load Hyper widget');
     };
+    script.onload = function () {
+      console.log('HyperReady', window.Hyper);
 
-    // Add load handling
-    window.addEventListener('HyperReady', function () {      // Generate or retrieve persistent user ID
       let userId = localStorage.getItem('hyper_user_id');
       if (!userId) {
         userId = crypto.randomUUID ? crypto.randomUUID() : 
@@ -23,7 +23,7 @@
       }
 
       // Initialize Hyper widget after script loads
-      window.Hyper("initialize", {
+      window.Hyper.initialize({
         platform_id: "4628043a-87fa-4cd2-a93f-d0dfae901c24",
         user_id: userId,
         created_at: Math.floor(Date.now() / 1000),
@@ -44,7 +44,7 @@
           screen_size: `${window.innerWidth}x${window.innerHeight}`
         }
       });
-    });
+    };
 
     // Append script to document
     document.head.appendChild(script);
